@@ -11,4 +11,38 @@
     <modules>
         <module>hello_world</module>
     </modules>
+
+    <properties>
+        <!-- project properties -->
+        <java.source>1.8</java.source>
+        <java.target>1.8</java.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- dependency properties -->
+        <spark.version>2.4.2</spark.version>
+
+        <!-- build properties -->
+        <build.artifact.name>spark</build.artifact.name>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
