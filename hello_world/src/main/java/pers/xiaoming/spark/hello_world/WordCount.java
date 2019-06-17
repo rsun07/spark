@@ -67,7 +67,7 @@ public class WordCount {
     }
 
 
-        private static void print(String jobName, List<Tuple2<String, Integer>> results) {
+    private static void print(String jobName, List<Tuple2<String, Integer>> results) {
         System.out.println("Result for " + jobName);
         for (Tuple2<String, Integer> r : results) {
             System.out.println(r);
