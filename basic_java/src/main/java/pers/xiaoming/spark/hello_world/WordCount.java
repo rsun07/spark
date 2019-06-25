@@ -24,7 +24,7 @@ public class WordCount {
         // RDD stands for "Resilient Distributed Datasets"
         JavaRDD<String> fileContext = sc.textFile(args[0]);
 
-        print(" Step by Step result", stepByStepImpl(fileContext));
+        //print(" Step by Step result", stepByStepImpl(fileContext));
 
         print("Java Lambda result", lambdaImpl(fileContext));
     }
@@ -52,9 +52,7 @@ public class WordCount {
             }
         });
 
-        List<Tuple2<String, Integer>> results = result.collect();
-
-        return results;
+        return result.collect();
     }
 
     private static List<Tuple2<String, Integer>> lambdaImpl(JavaRDD<String> fileContext) {
@@ -63,7 +61,6 @@ public class WordCount {
                 .mapToPair(word -> new Tuple2<>(word, 1))
                 .reduceByKey((int1, int2) -> int1 + int2) // Integer::sum
                 .collect();
-
     }
 
 

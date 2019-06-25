@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>hello_world</module>
+        <module>basic_java</module>
     </modules>
 
     <properties>
@@ -39,9 +39,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.4</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.source}</source>
+                    <target>${java.target}</target>
                 </configuration>
             </plugin>
         </plugins>

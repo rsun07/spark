@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>hello_world</artifactId>
+    <artifactId>basic_java</artifactId>
 
     <dependencies>
         <dependency>
