@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class WordCount {
+    private JavaSparkContext sc;
     private JavaRDD<String> fileContext;
 
     public WordCount(String filePath) {
@@ -21,36 +22,44 @@ public class WordCount {
         conf.setAppName("WordCount");
         conf.setMaster("local");
 
-        JavaSparkContext sc = new JavaSparkContext(conf);
+        this.sc = new JavaSparkContext(conf);
 
-        fileContext = sc.textFile(filePath);
+        this.fileContext = sc.textFile(filePath);
     }
 
     public List<Tuple2<String, Integer>> verboseStepByStepImpl() {
 
-        JavaRDD<String> words = fileContext.flatMap(new FlatMapFunction<String, String>() {
-            @Override
-            public Iterator<String> call(String s) throws Exception {
-                return Arrays.asList(s.split(" ")).iterator();
-            }
-        });
+        JavaRDD<String> words = fileContext.flatMap(splitLineToWordsFunc);
 
-        JavaPairRDD<String, Integer> wordWithCount = words.mapToPair(new PairFunction<String, String, Integer>() {
-            @Override
-            public Tuple2<String, Integer> call(String s) throws Exception {
-                return new Tuple2<>(s, 1);
-            }
-        });
+        JavaPairRDD<String, Integer> wordWithCount = words.mapToPair(wordToPairFunc);
 
-        JavaPairRDD<String, Integer> result = wordWithCount.reduceByKey(new Function2<Integer, Integer, Integer>() {
-            @Override
-            public Integer call(Integer integer, Integer integer2) throws Exception {
-                return integer + integer2;
-            }
-        });
+        JavaPairRDD<String, Integer> result = wordWithCount.reduceByKey(reduceWordCountFunc);
 
         return result.collect();
     }
+
+    private static FlatMapFunction<String, String> splitLineToWordsFunc = new FlatMapFunction<String, String>() {
+        @Override
+        public Iterator<String> call(String s)throws Exception{
+            return Arrays.asList(s.split(" ")).iterator();
+        }
+
+    };
+
+    private static PairFunction<String, String, Integer> wordToPairFunc = new PairFunction<String, String, Integer>() {
+        @Override
+        public Tuple2<String, Integer> call(String s) throws Exception {
+            return new Tuple2<>(s, 1);
+        }
+    };
+
+    private static Function2<Integer, Integer, Integer> reduceWordCountFunc = new Function2<Integer, Integer, Integer>() {
+        @Override
+        public Integer call(Integer integer, Integer integer2) throws Exception {
+            return integer + integer2;
+        }
+    };
+
 
     public List<Tuple2<String, Integer>> lambdaImpl() {
         return fileContext
@@ -73,12 +82,7 @@ public class WordCount {
                 .reduce(Integer::sum);
     }
 
-
-    private void print(String jobName, List<Tuple2<String, Integer>> results) {
-        System.out.println("Result for " + jobName);
-        for (Tuple2<String, Integer> r : results) {
-            System.out.println(r);
-        }
-        System.out.println();
+    public void shutdown() {
+        this.sc.close();
     }
 }

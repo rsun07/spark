@@ -22,9 +22,7 @@
 
         <!-- dependency properties -->
         <spark.version>2.4.2</spark.version>
-
-        <!-- build properties -->
-        <build.artifact.name>spark</build.artifact.name>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencies>
@@ -32,6 +30,13 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.12</artifactId>
             <version>${spark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
