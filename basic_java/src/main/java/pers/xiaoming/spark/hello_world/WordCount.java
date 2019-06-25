@@ -14,22 +14,19 @@ import java.util.Iterator;
 import java.util.List;
 
 public class WordCount {
-    public static void main(String[] args) {
+    private JavaRDD<String> fileContext;
+
+    public WordCount(String filePath) {
         SparkConf conf = new SparkConf();
         conf.setAppName("WordCount");
         conf.setMaster("local");
 
         JavaSparkContext sc = new JavaSparkContext(conf);
 
-        // RDD stands for "Resilient Distributed Datasets"
-        JavaRDD<String> fileContext = sc.textFile(args[0]);
-
-        //print(" Step by Step result", stepByStepImpl(fileContext));
-
-        print("Java Lambda result", lambdaImpl(fileContext));
+        fileContext = sc.textFile(filePath);
     }
 
-    private static List<Tuple2<String, Integer>> stepByStepImpl(JavaRDD<String> fileContext) {
+    public List<Tuple2<String, Integer>> verboseStepByStepImpl() {
 
         JavaRDD<String> words = fileContext.flatMap(new FlatMapFunction<String, String>() {
             @Override
@@ -55,7 +52,7 @@ public class WordCount {
         return result.collect();
     }
 
-    private static List<Tuple2<String, Integer>> lambdaImpl(JavaRDD<String> fileContext) {
+    public List<Tuple2<String, Integer>> lambdaImpl() {
         return fileContext
                 .flatMap(line -> Arrays.asList(line.split(" ")).iterator())
                 .mapToPair(word -> new Tuple2<>(word, 1))
@@ -63,8 +60,21 @@ public class WordCount {
                 .collect();
     }
 
+    public int numOfDistinctWord() {
+        return fileContext.flatMap(line -> Arrays.asList(line.split(" ")).iterator())
+                .distinct()
+                .map(word -> 1)
+                .reduce(Integer::sum);
+    }
 
-    private static void print(String jobName, List<Tuple2<String, Integer>> results) {
+    public int totalNumOfWord() {
+        return fileContext.flatMap(line -> Arrays.asList(line.split(" ")).iterator())
+                .map(word -> 1)
+                .reduce(Integer::sum);
+    }
+
+
+    private void print(String jobName, List<Tuple2<String, Integer>> results) {
         System.out.println("Result for " + jobName);
         for (Tuple2<String, Integer> r : results) {
             System.out.println(r);
