@@ -7,23 +7,27 @@ class WordCount(val filePath:String) {
   private val sc = new SparkContext(config)
   private val fileContext = sc.textFile(filePath)
 
-  def wordCount(): Array[(String, Int)] = {
+  def wordCount: Array[(String, Int)] = {
     fileContext.flatMap( line => line.split(" "))
         .map(word => (word, 1))
         .reduceByKey(_ + _)
         .collect()
   }
 
-  def numOfDistinctWords(): Int = {
+  def numOfDistinctWords: Int = {
     fileContext.flatMap(line => line.split(" "))
       .distinct()
       .map(_ => 1)
       .reduce(_ + _)
   }
 
-  def numOfTotalWords(): Int = {
+  def numOfTotalWords: Int = {
     fileContext.flatMap(line => line.split(" "))
       .map(_ => 1)
       .reduce(_ + _)
+  }
+
+  def shutdown {
+    sc.stop()
   }
 }
