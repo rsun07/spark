@@ -53,7 +53,13 @@ public class TransformationDemo extends DemoBase {
         List<String> words = Arrays.asList("w1 w2 w3", "w2 w3", "w3 w1");
         JavaRDD<String> wordsRDD = sc.parallelize(words);
 
+        // split by space
         wordsRDD.flatMap(word -> Arrays.asList(word.split(" ")).iterator())
+                .foreach(word -> System.out.print(word + ","));
+        System.out.println();
+
+        // split every char
+        wordsRDD.flatMap(word -> Arrays.asList(word.split("")).iterator())
                 .foreach(word -> System.out.print(word + ","));
         System.out.println();
 
