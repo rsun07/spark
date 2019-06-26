@@ -59,4 +59,13 @@ class TransformationDemo1 extends DemoBase {
       .foreach(word => print(word + ", "))
     println
   }
+
+  @Test
+  def filterDemo: Unit = {
+    val words = List("w1", "word", "word3", "a", "wrod")
+    val wordsRDD = DemoBase.sc.parallelize(words)
+
+    wordsRDD.filter(word => word.startsWith("word")).foreach(word => print(word + ", "))
+    println
+  }
 }
