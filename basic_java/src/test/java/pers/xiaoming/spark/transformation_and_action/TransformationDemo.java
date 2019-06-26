@@ -10,16 +10,26 @@ import java.util.List;
 import java.util.Random;
 
 public class TransformationDemo extends DemoBase {
+    private List<String> words = Arrays.asList("w1", "w2", "w3");
+    private JavaRDD<String> wordsRDD = sc.parallelize(words);
+
+    @Test
+    public void transformationDemo() throws InterruptedException {
+        JavaRDD<String> upperCaseWordsRDD = wordsRDD.map(String::toUpperCase);
+
+        System.out.println("Sleep for 5s, spark job won't be executed until action func is called");
+
+        Thread.sleep(5000);
+
+        // foreach() is an action func
+        upperCaseWordsRDD.foreach(word -> System.out.print(word + ", "));
+
+        System.out.println();
+    }
+
     @Test
     public void mapDemo() {
-        List<String> words = Arrays.asList("w1", "w2", "w3");
-        JavaRDD<String> wordsRDD = sc.parallelize(words);
-
         wordsRDD.map(word -> "_" + word + "_")
-                .foreach(word -> System.out.print(word + ", "));
-        System.out.println();
-
-        wordsRDD.map(String::toUpperCase)
                 .foreach(word -> System.out.print(word + ", "));
         System.out.println();
 
