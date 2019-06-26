@@ -29,37 +29,35 @@ public class WordCount {
 
     public List<Tuple2<String, Integer>> verboseStepByStepImpl() {
 
-        JavaRDD<String> words = fileContext.flatMap(splitLineToWordsFunc);
+        JavaRDD<String> words = fileContext.flatMap(new FlatMapFunction<String, String>() {
+            // avoid spark cannot serialize exception
+            private static final long serialVersionUID = 1L;
 
-        JavaPairRDD<String, Integer> wordWithCount = words.mapToPair(wordToPairFunc);
+            @Override
+            public Iterator<String> call(String s)throws Exception{
+                return Arrays.asList(s.split(" ")).iterator();
+            }
+        });
 
-        JavaPairRDD<String, Integer> result = wordWithCount.reduceByKey(reduceWordCountFunc);
+        JavaPairRDD<String, Integer> wordWithCount = words.mapToPair(new PairFunction<String, String, Integer>() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Tuple2<String, Integer> call(String s) throws Exception {
+                return new Tuple2<>(s, 1);
+            }
+        });
+
+        JavaPairRDD<String, Integer> result = wordWithCount.reduceByKey(new Function2<Integer, Integer, Integer>() {
+            @Override
+            public Integer call(Integer integer, Integer integer2) throws Exception {
+                return integer + integer2;
+            }
+        });
 
         return result.collect();
     }
-
-    private static FlatMapFunction<String, String> splitLineToWordsFunc = new FlatMapFunction<String, String>() {
-        @Override
-        public Iterator<String> call(String s)throws Exception{
-            return Arrays.asList(s.split(" ")).iterator();
-        }
-
-    };
-
-    private static PairFunction<String, String, Integer> wordToPairFunc = new PairFunction<String, String, Integer>() {
-        @Override
-        public Tuple2<String, Integer> call(String s) throws Exception {
-            return new Tuple2<>(s, 1);
-        }
-    };
-
-    private static Function2<Integer, Integer, Integer> reduceWordCountFunc = new Function2<Integer, Integer, Integer>() {
-        @Override
-        public Integer call(Integer integer, Integer integer2) throws Exception {
-            return integer + integer2;
-        }
-    };
-
 
     public List<Tuple2<String, Integer>> lambdaImpl() {
         return fileContext
