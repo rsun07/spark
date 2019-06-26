@@ -45,11 +45,11 @@ public class ActionDemo extends DemoBase {
 
     @Test
     public void takeDemo() {
-        List<String> top3Words = wordsRDD.take(3);
-        System.out.println(top3Words);
+        List<String> first3Words = wordsRDD.take(3);
+        System.out.println(first3Words);
 
-        List<Integer> top3Nums = numsRDD.take(3);
-        System.out.println(top3Nums);
+        List<Integer> first3Nums = numsRDD.take(3);
+        System.out.println(first3Nums);
     }
 
     @Test
