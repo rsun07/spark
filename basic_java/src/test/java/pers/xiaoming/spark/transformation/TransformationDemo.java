@@ -67,13 +67,23 @@ public class TransformationDemo {
         List<String> words2 = Arrays.asList("w1", "word", "word3");
         JavaRDD<String> wordsRDD2 = sc.parallelize(words2);
 
-        wordsRDD2.flatMap(word -> {
+        JavaRDD<Integer> integerRDD = wordsRDD2.flatMap(word -> {
             List<Integer> list = new ArrayList<>();
             for (Character c : word.toCharArray()) {
                 list.add(c.hashCode());
             }
             return list.iterator();
-        })
+        });
+        integerRDD.foreach(word -> System.out.print(word + ","));
+        System.out.println();
+    }
+
+    @Test
+    public void filterDemo() {
+        List<String> words = Arrays.asList("w1", "word", "word3", "a", "wrod");
+        JavaRDD<String> wordsRDD = sc.parallelize(words);
+
+        wordsRDD.filter(word -> word.startsWith("word"))
                 .foreach(word -> System.out.print(word + ","));
         System.out.println();
     }
