@@ -33,20 +33,26 @@ public class TransformationDemo3 extends DemoBase {
     @Test
     public void joinDemo() {
         JavaPairRDD<Integer, Tuple2<String, String>> idWithNameAndEmail = idToNameRDD.<String>join(idToEmailRDD);
-        idWithNameAndEmail.foreach(record -> System.out.println(record._1 + " : " + record._2._1 + ", " + record._2._2));
+
+        // Doesn't work, org.apache.spark.SparkException: Task not serializable
+        // idWithNameAndEmail.foreach(System.out::println);
+        idWithNameAndEmail.foreach(record -> System.out.println(record.toString()));
+
+        // Works but verbose
+        // idWithNameAndEmail.foreach(record -> System.out.println(record._1 + " : " + record._2._1 + ", " + record._2._2));
 
         JavaPairRDD<Integer, Tuple2<String, String>> idWithNameAndEmails = idToNameRDD.<String>join(idToEmailsRDD);
-        idWithNameAndEmails.foreach(record -> System.out.println(record._1 + " : " + record._2._1 + ", " + record._2._2));
+        idWithNameAndEmails.foreach(record -> System.out.println(record.toString()));
     }
 
     @Test
     public void cogroupDemo() {
         JavaPairRDD<Integer, Tuple2<Iterable<String>, Iterable<String>>> idWithNameAndEmail =
                 idToNameRDD.<String>cogroup(idToEmailRDD);
-        idWithNameAndEmail.foreach(record -> System.out.println(record._1 + " : " + record._2._1 + ", " + record._2._2));
+        idWithNameAndEmail.foreach(record -> System.out.println(record.toString()));
 
         JavaPairRDD<Integer, Tuple2<Iterable<String>, Iterable<String>>> idWithNameAndEmails =
                 idToNameRDD.<String>cogroup(idToEmailsRDD);
-        idWithNameAndEmails.foreach(record -> System.out.println(record._1 + " : " + record._2._1 + ", " + record._2._2));
+        idWithNameAndEmails.foreach(record -> System.out.println(record.toString()));
     }
 }
