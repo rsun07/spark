@@ -1,13 +1,14 @@
 package pers.xiaoming.spark.transformation_and_action
 
 import org.junit.Test
+import pers.xiaoming.spark.SparkCoreDemoTestBase
 
-class ActionDemo extends DemoBase {
+class ActionDemo extends SparkCoreDemoTestBase {
   val words = Array("A", "B", "C", "D", "E")
-  val wordsRDD = DemoBase.sc.parallelize(words)
+  val wordsRDD = SparkCoreDemoTestBase.sc.parallelize(words)
 
   val nums = Array(1, 2, 3, 4, 5)
-  val numsRDD = DemoBase.sc.parallelize(nums)
+  val numsRDD = SparkCoreDemoTestBase.sc.parallelize(nums)
 
   @Test
   def reduceDemo: Unit = {
@@ -65,7 +66,7 @@ class ActionDemo extends DemoBase {
       Tuple2("HR", "H"),
       Tuple2("Finance", "I"))
 
-    val employeeRDD = DemoBase.sc.parallelize(employeeWithDepartment, 1)
+    val employeeRDD = SparkCoreDemoTestBase.sc.parallelize(employeeWithDepartment, 1)
 
     val numOfEmployeeEachDep = employeeRDD.countByKey()
     println(numOfEmployeeEachDep)

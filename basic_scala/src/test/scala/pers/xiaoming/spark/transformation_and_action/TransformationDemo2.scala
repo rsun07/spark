@@ -1,8 +1,9 @@
 package pers.xiaoming.spark.transformation_and_action
 
 import org.junit.Test
+import pers.xiaoming.spark.SparkCoreDemoTestBase
 
-class TransformationDemo2 extends DemoBase {
+class TransformationDemo2 extends SparkCoreDemoTestBase {
 
   private val employeeWithDepartment = Array(
     Tuple2("Dev", "A"),
@@ -15,7 +16,7 @@ class TransformationDemo2 extends DemoBase {
     Tuple2("HR", "H"),
     Tuple2("Finance", "I"))
 
-  private val employees = DemoBase.sc.parallelize(employeeWithDepartment, 1)
+  private val employees = SparkCoreDemoTestBase.sc.parallelize(employeeWithDepartment, 1)
 
   @Test
   def groupByKeyDemo: Unit = {

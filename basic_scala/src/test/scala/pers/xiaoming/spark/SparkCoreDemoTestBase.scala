@@ -1,13 +1,13 @@
-package pers.xiaoming.spark.transformation_and_action
+package pers.xiaoming.spark
 
 import org.apache.spark.{SparkConf, SparkContext}
 import org.junit.{AfterClass, BeforeClass}
 
-class DemoBase {
+class SparkCoreDemoTestBase {
 
 }
 
-object DemoBase {
+object SparkCoreDemoTestBase {
   var sc:SparkContext = _
 
   @BeforeClass

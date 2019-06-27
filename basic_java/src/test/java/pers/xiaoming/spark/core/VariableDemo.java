@@ -6,6 +6,7 @@ import org.apache.spark.util.AccumulatorV2;
 import org.junit.Test;
 import pers.xiaoming.spark.SparkCoreDemoTestBase;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -33,47 +34,7 @@ public class VariableDemo extends SparkCoreDemoTestBase {
         sc.sc().register(sum, "SUM");
 
         numsRDD.foreach(x -> sum.add(x.longValue()));
-    }
 
-    private class MyAccumulator extends AccumulatorV2<Long, Long> {
-        private AtomicLong value;
-
-        public MyAccumulator() {
-            value = new AtomicLong(0);
-        }
-
-        public MyAccumulator(long value) {
-            this.value = new AtomicLong(value);
-        }
-
-        @Override
-        public boolean isZero() {
-            return value.get() == 0;
-        }
-
-        @Override
-        public AccumulatorV2<Long, Long> copy() {
-            return new MyAccumulator(value.get());
-        }
-
-        @Override
-        public void reset() {
-            value.set(0L);
-        }
-
-        @Override
-        public void add(Long v) {
-            value.addAndGet(v);
-        }
-
-        @Override
-        public void merge(AccumulatorV2<Long, Long> other) {
-            value.addAndGet(other.value());
-        }
-
-        @Override
-        public Long value() {
-            return value.get();
-        }
+        System.out.println(sum.value());
     }
 }

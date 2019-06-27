@@ -1,12 +1,13 @@
 package pers.xiaoming.spark.transformation_and_action
 
 import org.junit.Test
+import pers.xiaoming.spark.SparkCoreDemoTestBase
 
 import scala.util.Random
 
-class TransformationDemo1 extends DemoBase {
+class TransformationDemo1 extends SparkCoreDemoTestBase {
   private val words = List("w1", "w2", "w3")
-  private val wordsRDD = DemoBase.sc.parallelize(words)
+  private val wordsRDD = SparkCoreDemoTestBase.sc.parallelize(words)
 
 
   @Test
@@ -42,7 +43,7 @@ class TransformationDemo1 extends DemoBase {
   @Test
   def flatMapDemo: Unit = {
     val words = List("w1 w2 w3", "w2 w3", "w3 w1")
-    val wordsRDD = DemoBase.sc.parallelize(words)
+    val wordsRDD = SparkCoreDemoTestBase.sc.parallelize(words)
 
     // split by space
     wordsRDD.flatMap(word => word.split(" ")).foreach(word => print(word + ", "))
@@ -53,7 +54,7 @@ class TransformationDemo1 extends DemoBase {
     println
 
     val words2 = List("w1", "word", "word3")
-    val wordsRDD2 = DemoBase.sc.parallelize(words2)
+    val wordsRDD2 = SparkCoreDemoTestBase.sc.parallelize(words2)
 
     wordsRDD2.flatMap(word => word.toCharArray.map(_.hashCode()))
       .foreach(word => print(word + ", "))
@@ -63,7 +64,7 @@ class TransformationDemo1 extends DemoBase {
   @Test
   def filterDemo: Unit = {
     val words = List("w1", "word", "word3", "a", "wrod")
-    val wordsRDD = DemoBase.sc.parallelize(words)
+    val wordsRDD = SparkCoreDemoTestBase.sc.parallelize(words)
 
     wordsRDD.filter(word => word.startsWith("word")).foreach(word => print(word + ", "))
     println
