@@ -2,18 +2,25 @@ package pers.xiaoming.spark.core;
 
 import org.apache.spark.util.AccumulatorV2;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class HeapAccumulator extends AccumulatorV2<Integer, List<Integer>> {
+class HeapAccumulator extends AccumulatorV2<Integer, List<Integer>> implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final PriorityQueue<Integer> heap;
     private final int n;
 
     public HeapAccumulator(int n) {
         this.n = n;
-        this.heap = new PriorityQueue<>(n, Comparator.comparingInt(i -> i));
+        this.heap = new PriorityQueue<>(n);
+    }
+
+    public HeapAccumulator(PriorityQueue<Integer> heap, int n) {
+        this.heap = heap;
+        this.n = n;
     }
 
     @Override
@@ -21,10 +28,9 @@ public class HeapAccumulator extends AccumulatorV2<Integer, List<Integer>> {
         return heap.isEmpty();
     }
 
-    // not in use
     @Override
     public AccumulatorV2<Integer, List<Integer>> copy() {
-        return this;
+        return new HeapAccumulator(this.heap, this.n);
     }
 
     @Override
@@ -46,10 +52,13 @@ public class HeapAccumulator extends AccumulatorV2<Integer, List<Integer>> {
 
     @Override
     public void merge(AccumulatorV2<Integer, List<Integer>> other) {
+        for (int v : other.value()) {
+            this.add(v);
+        }
     }
 
     @Override
     public List<Integer> value() {
-        return Arrays.asList(heap.toArray(new Integer[0]));
+        return new ArrayList<>(heap);
     }
 }

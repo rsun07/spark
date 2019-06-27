@@ -21,7 +21,10 @@ public class TopNSelector implements Closeable {
 
     public List<Integer> getTopNHeapImpl(List<Integer> input, int n) {
         JavaRDD<Integer> inputRDD = sc.parallelize(input);
-        AccumulatorV2<Integer, List<Integer>> heap = new HeapAccumulator(n);
+
+        final AccumulatorV2<Integer, List<Integer>> heap = new HeapAccumulator(n);
+
+        sc.sc().register(heap, "Heap");
 
         inputRDD.foreach(heap::add);
         return heap.value();

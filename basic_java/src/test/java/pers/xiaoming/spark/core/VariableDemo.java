@@ -2,14 +2,11 @@ package pers.xiaoming.spark.core;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.broadcast.Broadcast;
-import org.apache.spark.util.AccumulatorV2;
 import org.junit.Test;
 import pers.xiaoming.spark.SparkCoreDemoTestBase;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class VariableDemo extends SparkCoreDemoTestBase {
     private JavaRDD<Integer> numsRDD = sc.parallelize(Arrays.asList(1, 2, 3));
