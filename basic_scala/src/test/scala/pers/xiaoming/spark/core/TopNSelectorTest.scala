@@ -8,15 +8,15 @@ class TopNSelectorTest extends SparkCoreDemoTestBase {
   private val N = 5
   private val topNSelector = new TopNSelector(SparkCoreDemoTestBase.sc)
   private val input = List(1 to 100: _*)
-  private val expectResult = Array(100, 99, 98, 97, 96)
+  private val expectResult = List(100, 99, 98, 97, 96)
 
   @Test
   def topNSortImplTest: Unit = {
-    Assert.assertEquals(expectResult, topNSelector.getTOpNSortImpl(input, N))
+    Assert.assertEquals(expectResult, topNSelector.getTopNSortImpl[Int](input, N))
   }
 
   @Test
   def topNSortHeapTest: Unit = {
-    Assert.assertEquals(expectResult, topNSelector.getTOpNSortImpl(input, N))
+    Assert.assertEquals(expectResult, topNSelector.getTopNHeapImpl[Int](input, N))
   }
 }

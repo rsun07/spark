@@ -19,7 +19,6 @@ class StudentScoreSortDemo extends SparkCoreDemoTestBase {
 
     val studentScoreRDD = SparkCoreDemoTestBase.sc.parallelize(studentScores)
 
-    studentScoreRDD.map(studentScore => (studentScore, studentScore.name))
-      .sortByKey(false).foreach(tuple => println(tuple._1))
+    studentScoreRDD.sortBy(studentScore => studentScore).foreach(println)
   }
 }
