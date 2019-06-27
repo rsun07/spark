@@ -16,6 +16,8 @@ public class SparkCoreDemoTestBase {
 
     @AfterClass
     public static void close() {
-        sc.close();
+        if (sc != null) {
+            sc.close();
+        }
     }
 }
