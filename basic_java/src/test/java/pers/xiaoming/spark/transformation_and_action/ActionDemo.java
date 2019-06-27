@@ -58,22 +58,4 @@ public class ActionDemo extends DemoBase {
 
         numsRDD.saveAsTextFile("hdfs://localhost:9000/nums.txt");
     }
-
-    @Test
-    public void countByKeyDemo() {
-        List<Tuple2<String, String>> employeeWithDepartment = Arrays.asList(
-                new Tuple2<>("Dev", "A"),
-                new Tuple2<>("HR", "B"),
-                new Tuple2<>("Dev", "C"),
-                new Tuple2<>("Finance", "D"),
-                new Tuple2<>("HR", "E"),
-                new Tuple2<>("Dev", "F"),
-                new Tuple2<>("HR", "G"),
-                new Tuple2<>("HR", "H"),
-                new Tuple2<>("Finance", "I"));
-        JavaPairRDD<String, String> employeesRDD = sc.<String, String>parallelizePairs(employeeWithDepartment);
-
-        Map<String, Long> numOfEmployeeEachDep = employeesRDD.countByKey();
-        System.out.println(numOfEmployeeEachDep);
-    }
 }
