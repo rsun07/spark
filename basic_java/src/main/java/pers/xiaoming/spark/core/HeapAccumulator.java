@@ -2,14 +2,11 @@ package pers.xiaoming.spark.core;
 
 import org.apache.spark.util.AccumulatorV2;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-class HeapAccumulator extends AccumulatorV2<Integer, List<Integer>> implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+class HeapAccumulator extends AccumulatorV2<Integer, List<Integer>> {
     private final PriorityQueue<Integer> heap;
     private final int n;
 
