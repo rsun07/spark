@@ -15,14 +15,14 @@ public class TopNSelector implements Closeable {
         this.sc = sc;
     }
 
-    public List<Integer> getTopNSortImpl(List<Integer> input, int n) {
+    public <T> List<T> getTopNSortImpl(List<T> input, int n) {
         return sc.parallelize(input).sortBy(x -> x, false, 1).take(n);
     }
 
-    public List<Integer> getTopNHeapImpl(List<Integer> input, int n) {
-        JavaRDD<Integer> inputRDD = sc.parallelize(input);
+    public <T> List<T>getTopNHeapImpl(List<T> input, int n) {
+        JavaRDD<T> inputRDD = sc.parallelize(input);
 
-        final AccumulatorV2<Integer, List<Integer>> heap = new HeapAccumulator(n);
+        final AccumulatorV2<T, List<T>> heap = new HeapAccumulator(n);
 
         sc.sc().register(heap, "Heap");
 
