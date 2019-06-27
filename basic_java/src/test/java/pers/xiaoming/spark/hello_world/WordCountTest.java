@@ -3,12 +3,14 @@ package pers.xiaoming.spark.hello_world;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import scala.Tuple2;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Ignore
 public class WordCountTest {
     private static final String TEST_FILE_PATH = "./src/test/resources/wordcount.txt";
     private static WordCount wordCount;
