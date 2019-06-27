@@ -2,6 +2,7 @@ package pers.xiaoming.spark.transformation_and_action;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.junit.Test;
+import pers.xiaoming.spark.SparkCoreDemoTestBase;
 import scala.Tuple2;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class TransformationDemo extends DemoBase {
+public class TransformationDemo extends SparkCoreDemoTestBase {
     private List<String> words = Arrays.asList("w1", "w2", "w3");
     private JavaRDD<String> wordsRDD = sc.parallelize(words);
 

@@ -1,12 +1,12 @@
-package pers.xiaoming.spark.transformation_and_action;
+package pers.xiaoming.spark;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class DemoBase {
-    static JavaSparkContext sc;
+public class SparkCoreDemoTestBase {
+    protected static JavaSparkContext sc;
 
     @BeforeClass
     public static void setup() {

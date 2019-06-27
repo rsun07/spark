@@ -2,12 +2,13 @@ package pers.xiaoming.spark.transformation_and_action;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.junit.Test;
+import pers.xiaoming.spark.SparkCoreDemoTestBase;
 import scala.Tuple2;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class TransformationDemo2 extends DemoBase {
+public class TransformationDemo2 extends SparkCoreDemoTestBase {
     private List<Tuple2<String, String>> employeeWithDepartment = Arrays.asList(
             new Tuple2<>("Dev", "A"),
             new Tuple2<>("HR", "B"),

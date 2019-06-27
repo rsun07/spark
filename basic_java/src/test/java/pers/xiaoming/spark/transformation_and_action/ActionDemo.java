@@ -1,15 +1,13 @@
 package pers.xiaoming.spark.transformation_and_action;
 
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.junit.Test;
-import scala.Tuple2;
+import pers.xiaoming.spark.SparkCoreDemoTestBase;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-public class ActionDemo extends DemoBase {
+public class ActionDemo extends SparkCoreDemoTestBase {
     private List<String> words = Arrays.asList("A", "B", "C", "D", "E");
     private JavaRDD<String> wordsRDD = sc.parallelize(words);
 

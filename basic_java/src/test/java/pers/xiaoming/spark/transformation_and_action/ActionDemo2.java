@@ -3,13 +3,14 @@ package pers.xiaoming.spark.transformation_and_action;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.junit.Test;
+import pers.xiaoming.spark.SparkCoreDemoTestBase;
 import scala.Tuple2;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class ActionDemo2 extends DemoBase {
+public class ActionDemo2 extends SparkCoreDemoTestBase {
     @Test
     public void countByKeyDemo() {
         List<Tuple2<String, String>> employeeWithDepartment = Arrays.asList(
