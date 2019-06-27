@@ -46,12 +46,14 @@ public class TopNSelectorTest extends SparkCoreDemoTestBase {
         }
     }
 
+    // execute time normally 1.2s
     @Test
     public void topNSortImplTest() {
         List<Integer> result = topNSelector.getTopNSortImpl(testInput, N);
         Assert.assertEquals(expectedResult, result);
     }
 
+    // execute time normally 50ms
     @Test
     public void topNHeapImplTest() {
         List<Integer> result = topNSelector.getTopNHeapImpl(testInput, N);

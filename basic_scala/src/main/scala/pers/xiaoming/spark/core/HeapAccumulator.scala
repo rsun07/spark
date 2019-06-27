@@ -4,31 +4,31 @@ import org.apache.spark.util.AccumulatorV2
 
 import scala.collection.mutable
 
-class HeapAccumulator(private val n:Int, private val heap:mutable.PriorityQueue[Int])
-  extends AccumulatorV2[Int, List[Int]] {
+class HeapAccumulator[T <: Comparable[T]](private val n:Int, private val heap:mutable.PriorityQueue[T])
+  extends AccumulatorV2[T, Array[T]] {
 
-  def this(n:Int) = this(n, new mutable.PriorityQueue[Int]())
+  def this(n:Int) = this(n, new mutable.PriorityQueue[T]())
 
   override def isZero: Boolean = heap.isEmpty
 
-  override def copy(): AccumulatorV2[Int, List[Int]] = new HeapAccumulator(n, heap)
+  override def copy(): AccumulatorV2[T, Array[T]] = new HeapAccumulator[T](n, heap)
 
   override def reset(): Unit = heap.clear()
 
-  override def add(v: Int): Unit = {
+  override def add(v: T): Unit = {
     if (heap.size < n) {
       heap.+=(v)
     } else {
-      if (heap.head < v) {
+      if (heap.head.compareTo(v) > 0) {
         heap.dequeue()
         heap.+=(v)
       }
     }
   }
 
-  override def merge(other: AccumulatorV2[Int, List[Int]]): Unit = {
+  override def merge(other: AccumulatorV2[T, Array[T]]): Unit = {
     other.value.foreach(heap.+=)
   }
 
-  override def value: List[Int] = heap.toList
+  override def value: Array[T] = heap.toArray
 }
