@@ -18,6 +18,6 @@ object SparkCoreDemoTestBase {
 
   @AfterClass
   def close: Unit = {
-    sc.stop()
+    if (sc != null) sc.stop()
   }
 }
