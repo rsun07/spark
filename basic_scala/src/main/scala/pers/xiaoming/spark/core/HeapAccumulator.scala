@@ -9,7 +9,7 @@ import scala.reflect.ClassTag
 class HeapAccumulator[T : Ordering : ClassTag](private val n:Int, private val heap:mutable.PriorityQueue[T])
   extends AccumulatorV2[T, List[T]] {
 
-  def this(n:Int) = this(n, new mutable.PriorityQueue[T]())
+  def this(n:Int) = this(n, mutable.PriorityQueue.empty[T](Ordering[T].reverse))
 
   override def isZero: Boolean = heap.isEmpty
 

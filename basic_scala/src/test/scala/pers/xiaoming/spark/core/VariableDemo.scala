@@ -1,9 +1,5 @@
 package pers.xiaoming.spark.core
 
-import java.io.Serializable
-import java.util.concurrent.atomic.AtomicLong
-
-import org.apache.spark.util.AccumulatorV2
 import org.junit.Test
 import pers.xiaoming.spark.SparkCoreDemoTestBase
 
