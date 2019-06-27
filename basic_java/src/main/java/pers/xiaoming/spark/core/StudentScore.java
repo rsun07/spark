@@ -21,7 +21,7 @@ public class StudentScore implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderedStudentScore{" +
+        return "StudentScore{" +
                 "name='" + name + '\'' +
                 ", total=" + total +
                 ", math=" + math +

@@ -10,6 +10,16 @@ public class OrderedStudentScore extends StudentScore implements Ordered<Ordered
     }
 
     @Override
+    public String toString() {
+        return "OrderedStudentScore{" +
+                "name='" + name + '\'' +
+                ", total=" + total +
+                ", math=" + math +
+                ", english=" + english +
+                '}';
+    }
+
+    @Override
     public int compare(OrderedStudentScore that) {
         if (this.total - that.total != 0) {
             return this.total - that.total;
